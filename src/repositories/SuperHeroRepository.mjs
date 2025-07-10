@@ -14,8 +14,12 @@ class SuperHeroRepository extends IRepository {
   async buscarPorAtributo(atributo, valor) {
     return await SuperHero.find({ [atributo]: valor });
   }
-  async obtenerMayoresDe30() {
-    return await SuperHero.find({ edad: { $gt: 30 } }); //$gt: "greater than" (mayor que)
+    async obtenerMayoresDe30ConCriterios() {
+    return await SuperHero.find({
+      edad: { $gt: 30 },
+      planetaOrigen: "Tierra",
+      $expr: { $gte: [{ $size: "$poderes" }, 2] },
+    });
   }
   // crear Superheroe
   async crearSuperheroe(datos) {
